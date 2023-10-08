@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MagicWarehouse.Data.A_Device>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Devices</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IMEI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceTypeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivedDateProvider)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.A_DeviceType.DeviceName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMEI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivedDateProvider)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.A_DeviceType.DeviceName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
