@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -15,6 +16,9 @@ using System.Windows.Input;
 using MagicWarehouse.Data;
 using MagicWarehouse.Models;
 using OfficeOpenXml;
+using PagedList;
+using PagedList.Mvc;
+
 
 
 namespace MagicWarehouse.Controllers
@@ -24,10 +28,16 @@ namespace MagicWarehouse.Controllers
         private MagicEntities db = new MagicEntities();
 
         // GET: Device
-        public ActionResult Index()
+        public ActionResult Index(int? i, string searchString)
         {
-            var a_Device = db.A_Device.Include(a => a.A_DeviceType);
-            return View(a_Device.ToList());
+            // Your existing code for displaying the list of devices
+            int pageSize = 15;
+            int pageIndex = !i.HasValue ? 1 : i.Value;
+            var a_Device = db.A_Device.Where(X => string.IsNullOrEmpty(searchString)
+                || (!string.IsNullOrEmpty(searchString) && X.IMEI.Contains(searchString))).Include(a => a.A_DeviceType);
+
+            ViewBag.CurrentFilter = searchString;
+            return View(a_Device.ToList().ToPagedList(pageIndex, pageSize));
         }
 
         // GET: Device/Details/5
@@ -52,6 +62,7 @@ namespace MagicWarehouse.Controllers
             return View();
         }
 
+
         // POST: Device/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -61,6 +72,13 @@ namespace MagicWarehouse.Controllers
         {
             if (ModelState.IsValid)
             {
+                string imeiPattern = @"^\d{15}$";
+                if (!Regex.IsMatch(a_Device.IMEI, imeiPattern))
+                {
+                    ModelState.AddModelError("IMEI", "IMEI must be exactly 15 digits long and contain only numbers.");
+                    ViewBag.ID = new SelectList(db.A_DeviceType, "ID", "DeviceName", a_Device.ID);
+                    return View(a_Device);
+                }
                 db.A_Device.Add(a_Device);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -68,6 +86,7 @@ namespace MagicWarehouse.Controllers
 
             ViewBag.ID = new SelectList(db.A_DeviceType, "ID", "DeviceName", a_Device.ID);
             return View(a_Device);
+
         }
 
         // GET: Device/Edit/5
@@ -84,6 +103,25 @@ namespace MagicWarehouse.Controllers
             }
             ViewBag.ID = new SelectList(db.A_DeviceType, "ID", "DeviceName", a_Device.ID);
             return View(a_Device);
+            if (ModelState.IsValid)
+            {
+                // Validate the IMEI format using a regular expression
+                string imeiPattern = @"^\d{15}$";
+                if (!Regex.IsMatch(a_Device.IMEI, imeiPattern))
+                {
+                    ModelState.AddModelError("IMEI", "IMEI must be exactly 15 digits long and contain only numbers.");
+                    ViewBag.ID = new SelectList(db.A_DeviceType, "ID", "DeviceName", a_Device.ID);
+                    return View(a_Device);
+                }
+
+                db.Entry(a_Device).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ID = new SelectList(db.A_DeviceType, "ID", "DeviceName", a_Device.ID);
+            return View(a_Device);
+
         }
 
         // POST: Device/Edit/5
@@ -174,7 +212,7 @@ namespace MagicWarehouse.Controllers
                 // Handle the case where no file was selected
                 TempData["Message"] = "Please select a file to upload.";
             }
-           
+
             return RedirectToAction("Create");
 
             //return View();
@@ -204,6 +242,8 @@ namespace MagicWarehouse.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

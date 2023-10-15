@@ -1,57 +1,77 @@
-﻿@model IEnumerable<MagicWarehouse.Data.A_Device>
+﻿@model PagedList.IPagedList<MagicWarehouse.Data.A_Device>
 
 @{
     ViewBag.Title = "Index";
 }
+@using PagedList;
+@using PagedList.Mvc;
 
 <h2>Devices</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Device", FormMethod.Get))
+{
+    <p>
+        Search:
+        <input type="text" name="searchString" id="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IMEI)
+            @Html.DisplayNameFor(model => model.First().IMEI)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DeviceTypeID)
+            @Html.DisplayNameFor(model => model.First().DeviceTypeID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReceivedDateProvider)
+            @Html.DisplayNameFor(model => model.First().ReceivedDateProvider)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.First().Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.A_DeviceType.DeviceName)
+            @Html.DisplayNameFor(model => model.First().A_DeviceType.DeviceName)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IMEI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeviceTypeID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReceivedDateProvider)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.A_DeviceType.DeviceName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IMEI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivedDateProvider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.A_DeviceType.DeviceName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<!-- Display the paginated results -->
+<div style="text-align:left;">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+    @Html.PagedListPager(Model, i => Url.Action("Index", new { i, searchString = ViewBag.CurrentFilter }))
+    </div>

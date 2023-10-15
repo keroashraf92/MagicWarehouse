@@ -15,12 +15,18 @@ namespace MagicWarehouse.Controllers
         private MagicEntities db = new MagicEntities();
 
         // GET: Employee
-        public ActionResult Index()
+        public ActionResult Index(string searchString) // The parameter name should match the input field name
         {
             var a_Employee = db.A_Employee.Include(a => a.A_Store);
+
+            // Filter employees by name if searchString is not empty
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                a_Employee = a_Employee.Where(e => e.Name.Contains(searchString));
+            }
+
             return View(a_Employee.ToList());
         }
-
         // GET: Employee/Details/5
         public ActionResult Details(int? id)
         {
