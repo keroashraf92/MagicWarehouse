@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
+
 @using PagedList;
 @using PagedList.Mvc;
 
@@ -74,4 +75,9 @@
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
     of @Model.PageCount
     @Html.PagedListPager(Model, i => Url.Action("Index", new { i, searchString = ViewBag.CurrentFilter }))
-    </div>
+</div>
+
+
+<p>
+    @Html.ActionLink("Export to Excel", "ExportToExcel", new { searchString = ViewBag.CurrentFilter }, new { @class = "btn btn-success" })
+</p>

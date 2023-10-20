@@ -8,7 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MagicWarehouse.Data;
-
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 namespace MagicWarehouse.Controllers
 {
     public class DeviceDocumentController : Controller
@@ -140,6 +141,7 @@ namespace MagicWarehouse.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        
 
         protected override void Dispose(bool disposing)
         {

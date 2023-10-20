@@ -16,8 +16,12 @@ using System.Windows.Input;
 using MagicWarehouse.Data;
 using MagicWarehouse.Models;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using PagedList;
 using PagedList.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 
 
@@ -217,6 +221,7 @@ namespace MagicWarehouse.Controllers
 
             //return View();
         }
+
         // GET: Device/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -244,8 +249,60 @@ namespace MagicWarehouse.Controllers
         }
 
 
+        // ... (other using statements) ...
 
-        protected override void Dispose(bool disposing)
+        public ActionResult ExportToExcel()
+        {
+            var data = db.A_Device.ToList(); // Retrieve data from your database
+
+            // Generate Excel file
+            byte[] fileContents = GenerateExcelFile(data);
+
+            // Return the Excel file as a response
+            return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DeviceData.xlsx");
+        }
+
+        private byte[] GenerateExcelFile(List<A_Device> data)
+    {
+        using (var package = new ExcelPackage())
+        {
+            var worksheet = package.Workbook.Worksheets.Add("DeviceData");
+
+            // Add headers and style them
+            worksheet.Cells["A1"].Value = "IMEI";
+            worksheet.Cells["B1"].Value = "Device Type ID";
+            worksheet.Cells["C1"].Value = "Received Date Provider";
+            worksheet.Cells["D1"].Value = "Status";
+
+            using (var range = worksheet.Cells["A1:D1"])
+            {
+                range.Style.Font.Bold = true;
+                range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                range.Style.Fill.BackgroundColor.SetColor(Color.Gray);
+                range.Style.Font.Color.SetColor(Color.White);
+            }
+
+            // Add data
+            int row = 2;
+            foreach (var device in data)
+            {
+                worksheet.Cells["A" + row].Value = device.IMEI;
+                worksheet.Cells["B" + row].Value = device.DeviceTypeID;
+                worksheet.Cells["C" + row].Value = device.ReceivedDateProvider;
+                worksheet.Cells["D" + row].Value = device.Status;
+                row++;
+            }
+
+            // Auto-fit columns for better readability
+            worksheet.Cells.AutoFitColumns();
+
+            return package.GetAsByteArray();
+        }
+    }
+
+
+
+    protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
