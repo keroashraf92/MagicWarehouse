@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MagicModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="A_Device">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IMEI" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DeviceTypeID" Type="int" Nullable="false" />
+          <Property Name="ReceivedDateProvider" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="A_DeviceDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentPath" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="DeviceID" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="A_DevicesHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrentCenterID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="DeviceID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="A_DeviceType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="A_Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="int" Nullable="false" />
+          <Property Name="JobTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Store_ID" Type="int" Nullable="false" />
+          <Property Name="JoinningDate" Type="datetime" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="A_Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StoreType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_A_Device_DeviceType">
+          <End Role="A_DeviceType" Type="Self.A_DeviceType" Multiplicity="1" />
+          <End Role="A_Device" Type="Self.A_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="A_DeviceType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="A_Device">
+              <PropertyRef Name="DeviceTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_A_Employee_A_Store">
+          <End Role="A_Store" Type="Self.A_Store" Multiplicity="1" />
+          <End Role="A_Employee" Type="Self.A_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="A_Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="A_Employee">
+              <PropertyRef Name="Store_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MagicModelStoreContainer">
+          <EntitySet Name="A_Device" EntityType="Self.A_Device" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="A_DeviceDocument" EntityType="Self.A_DeviceDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="A_DevicesHistory" EntityType="Self.A_DevicesHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="A_DeviceType" EntityType="Self.A_DeviceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="A_Employee" EntityType="Self.A_Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="A_Store" EntityType="Self.A_Store" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_A_Device_DeviceType" Association="Self.FK_A_Device_DeviceType">
+            <End Role="A_DeviceType" EntitySet="A_DeviceType" />
+            <End Role="A_Device" EntitySet="A_Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_A_Employee_A_Store" Association="Self.FK_A_Employee_A_Store">
+            <End Role="A_Store" EntitySet="A_Store" />
+            <End Role="A_Employee" EntitySet="A_Employee" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MagicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MagicEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="A_Device" EntityType="MagicModel.A_Device" />
+          <EntitySet Name="A_DeviceDocument" EntityType="MagicModel.A_DeviceDocument" />
+          <EntitySet Name="A_DevicesHistory" EntityType="MagicModel.A_DevicesHistory" />
+          <EntitySet Name="A_DeviceType" EntityType="MagicModel.A_DeviceType" />
+          <EntitySet Name="A_Employee" EntityType="MagicModel.A_Employee" />
+          <EntitySet Name="A_Store" EntityType="MagicModel.A_Store" />
+          <AssociationSet Name="FK_A_Device_DeviceType" Association="MagicModel.FK_A_Device_DeviceType">
+            <End Role="A_DeviceType" EntitySet="A_DeviceType" />
+            <End Role="A_Device" EntitySet="A_Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_A_Employee_A_Store" Association="MagicModel.FK_A_Employee_A_Store">
+            <End Role="A_Store" EntitySet="A_Store" />
+            <End Role="A_Employee" EntitySet="A_Employee" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="A_Device">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IMEI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ReceivedDateProvider" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="A_DeviceType" Relationship="MagicModel.FK_A_Device_DeviceType" FromRole="A_Device" ToRole="A_DeviceType" />
+        </EntityType>
+        <EntityType Name="A_DeviceDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentPath" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="A_DevicesHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrentCenterID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeviceID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="A_DeviceType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="A_Device" Relationship="MagicModel.FK_A_Device_DeviceType" FromRole="A_DeviceType" ToRole="A_Device" />
+        </EntityType>
+        <EntityType Name="A_Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int32" Nullable="false" />
+          <Property Name="JobTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Store_ID" Type="Int32" Nullable="false" />
+          <Property Name="JoinningDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="A_Store" Relationship="MagicModel.FK_A_Employee_A_Store" FromRole="A_Employee" ToRole="A_Store" />
+        </EntityType>
+        <EntityType Name="A_Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StoreType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="A_Employee" Relationship="MagicModel.FK_A_Employee_A_Store" FromRole="A_Store" ToRole="A_Employee" />
+        </EntityType>
+        <Association Name="FK_A_Device_DeviceType">
+          <End Type="MagicModel.A_DeviceType" Role="A_DeviceType" Multiplicity="1" />
+          <End Type="MagicModel.A_Device" Role="A_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="A_DeviceType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="A_Device">
+              <PropertyRef Name="DeviceTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_A_Employee_A_Store">
+          <End Type="MagicModel.A_Store" Role="A_Store" Multiplicity="1" />
+          <End Type="MagicModel.A_Employee" Role="A_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="A_Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="A_Employee">
+              <PropertyRef Name="Store_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MagicModelStoreContainer" CdmEntityContainer="MagicEntities">
+          <EntitySetMapping Name="A_Device">
+            <EntityTypeMapping TypeName="MagicModel.A_Device">
+              <MappingFragment StoreEntitySet="A_Device">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ReceivedDateProvider" ColumnName="ReceivedDateProvider" />
+                <ScalarProperty Name="DeviceTypeID" ColumnName="DeviceTypeID" />
+                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="A_DeviceDocument">
+            <EntityTypeMapping TypeName="MagicModel.A_DeviceDocument">
+              <MappingFragment StoreEntitySet="A_DeviceDocument">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="A_DevicesHistory">
+            <EntityTypeMapping TypeName="MagicModel.A_DevicesHistory">
+              <MappingFragment StoreEntitySet="A_DevicesHistory">
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CurrentCenterID" ColumnName="CurrentCenterID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="A_DeviceType">
+            <EntityTypeMapping TypeName="MagicModel.A_DeviceType">
+              <MappingFragment StoreEntitySet="A_DeviceType">
+                <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="A_Employee">
+            <EntityTypeMapping TypeName="MagicModel.A_Employee">
+              <MappingFragment StoreEntitySet="A_Employee">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="JoinningDate" ColumnName="JoinningDate" />
+                <ScalarProperty Name="Store_ID" ColumnName="Store_ID" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="A_Store">
+            <EntityTypeMapping TypeName="MagicModel.A_Store">
+              <MappingFragment StoreEntitySet="A_Store">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="StoreType" ColumnName="StoreType" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

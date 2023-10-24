@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicWarehouse", "MagicWarehouse.csproj", "{BFB1C778-41E6-4325-9A38-C00C3CD25ECA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicWarehouse.Data", "..\MagicWarehouse.Data\MagicWarehouse.Data.csproj", "{71BDE76B-72DC-47E5-B20E-41D6C1AFA06A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicWarehouse.Data", "MagicWarehouse.Data\MagicWarehouse.Data.csproj", "{71BDE76B-72DC-47E5-B20E-41D6C1AFA06A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{03E172C9-414D-4CD9-8AF7-99A8B58DA668}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{71BDE76B-72DC-47E5-B20E-41D6C1AFA06A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71BDE76B-72DC-47E5-B20E-41D6C1AFA06A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71BDE76B-72DC-47E5-B20E-41D6C1AFA06A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03E172C9-414D-4CD9-8AF7-99A8B58DA668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03E172C9-414D-4CD9-8AF7-99A8B58DA668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03E172C9-414D-4CD9-8AF7-99A8B58DA668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03E172C9-414D-4CD9-8AF7-99A8B58DA668}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

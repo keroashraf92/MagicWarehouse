@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="37e4946579e84bf490062ac5acd7dc7d" Name="Diagram1">
+        <EntityTypeShape EntityType="MagicModel.A_Device" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="MagicModel.A_DeviceDocument" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MagicModel.A_DevicesHistory" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MagicModel.A_DeviceType" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="MagicModel.A_Employee" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="MagicModel.A_Store" Width="1.5" PointX="0.75" PointY="1.125" />
+        <AssociationConnector Association="MagicModel.FK_A_Device_DeviceType" />
+        <AssociationConnector Association="MagicModel.FK_A_Employee_A_Store" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

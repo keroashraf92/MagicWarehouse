@@ -32,6 +32,7 @@ namespace MagicWarehouse.Controllers
         private MagicEntities db = new MagicEntities();
 
         // GET: Device
+
         public ActionResult Index(int? i, string searchString)
         {
             // Your existing code for displaying the list of devices

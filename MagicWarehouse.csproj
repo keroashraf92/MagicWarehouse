@@ -279,9 +279,13 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MagicWarehouse.Data\MagicWarehouse.Data.csproj">
+    <ProjectReference Include="MagicWarehouse.Data\MagicWarehouse.Data.csproj">
       <Project>{71bde76b-72dc-47e5-b20e-41d6c1afa06a}</Project>
       <Name>MagicWarehouse.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="ClassLibrary1\ClassLibrary1.csproj">
+      <Project>{03e172c9-414d-4cd9-8af7-99a8b58da668}</Project>
+      <Name>ClassLibrary1</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
