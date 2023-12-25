@@ -14,6 +14,7 @@
           <Property Name="DeviceTypeID" Type="int" Nullable="false" />
           <Property Name="ReceivedDateProvider" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StoreID" Type="int" />
         </EntityType>
         <EntityType Name="A_DeviceDocument">
           <Key>
@@ -67,15 +68,97 @@
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <Association Name="FK_A_Device_DeviceType">
-          <End Role="A_DeviceType" Type="Self.A_DeviceType" Multiplicity="1" />
+        <EntityType Name="A_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="40" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Centers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Level" Type="int" />
+          <Property Name="CentralName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CenterName" Type="nvarchar" MaxLength="255" />
+          <Property Name="OwnerName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Mobile" Type="varchar" MaxLength="15" />
+          <Property Name="Phone" Type="varchar" MaxLength="15" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="CommNo" Type="varchar" MaxLength="50" />
+          <Property Name="TaxNo" Type="varchar" MaxLength="50" />
+          <Property Name="Active" Type="smallint" />
+          <Property Name="Cat" Type="char" MaxLength="1" />
+          <Property Name="Last_Cat" Type="char" MaxLength="1" />
+          <Property Name="ChgTime" Type="datetime" />
+          <Property Name="AllowTransfeer" Type="bit" />
+          <Property Name="user_created" Type="int" />
+          <Property Name="added_date" Type="datetime" />
+          <Property Name="region" Type="varchar" MaxLength="250" />
+          <Property Name="sales_person" Type="varchar" MaxLength="250" />
+          <Property Name="national_id" Type="nvarchar" MaxLength="150" />
+          <Property Name="activity" Type="nvarchar" MaxLength="150" />
+          <Property Name="sim_no" Type="nvarchar" MaxLength="150" />
+          <Property Name="Deal_way" Type="nvarchar" MaxLength="150" />
+          <Property Name="is_agent" Type="bit" />
+          <Property Name="govern" Type="nvarchar" MaxLength="150" />
+          <Property Name="Mobile2" Type="nvarchar" MaxLength="150" />
+          <Property Name="inserted" Type="int" />
+          <Property Name="Sales_id" Type="int" />
+          <Property Name="Machine_Type" Type="nvarchar" MaxLength="150" />
+          <Property Name="Total" Type="nvarchar" MaxLength="150" />
+          <Property Name="Paid" Type="nvarchar" MaxLength="150" />
+          <Property Name="Remain" Type="nvarchar" MaxLength="150" />
+          <Property Name="Date_To" Type="nvarchar" MaxLength="150" />
+          <Property Name="UserUpdate" Type="int" />
+          <Property Name="MachineCode" Type="nvarchar" MaxLength="150" />
+          <Property Name="edDesc" Type="nvarchar" MaxLength="500" />
+          <Property Name="Logged_In" Type="bit" />
+          <Property Name="Last_login" Type="datetime" />
+          <Property Name="last_logout" Type="datetime" />
+          <Property Name="last_channel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Web" Type="bit" />
+          <Property Name="Api" Type="bit" />
+          <Property Name="Total_Amount" Type="real" />
+          <Property Name="Total_Points" Type="float" />
+          <Property Name="Serial" Type="nvarchar" MaxLength="50" />
+          <Property Name="Simno" Type="nvarchar" MaxLength="50" />
+          <Property Name="region_mina" Type="varchar" MaxLength="250" />
+          <Property Name="Place_Id" Type="int" />
+          <Property Name="sales_center_id" Type="int" />
+          <Property Name="Balance_cash" Type="real" />
+          <Property Name="last1month" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="last2month" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="last3month" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="last0month" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Centers_company_Id" Type="int" />
+          <Property Name="Parent_CenterID" Type="int" />
+          <Property Name="Total_Parent_Amount" Type="real" />
+          <Property Name="ProfitDailyControl" Type="bit" />
+          <Property Name="AccountTypeID" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="AccountProfileID" Type="int" />
+          <Property Name="EntityID" Type="int" />
+          <Property Name="TransferTree" Type="bit" />
+          <Property Name="CountResetPassword" Type="int" />
+          <Property Name="Batch" Type="int" />
+          <Property Name="ActivityId" Type="int" />
+          <Property Name="GovernID" Type="int" />
+        </EntityType>
+        <Association Name="FK_A_Device_A_Store">
+          <End Role="A_Store" Type="Self.A_Store" Multiplicity="0..1" />
           <End Role="A_Device" Type="Self.A_Device" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="A_DeviceType">
+            <Principal Role="A_Store">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="A_Device">
-              <PropertyRef Name="DeviceTypeID" />
+              <PropertyRef Name="StoreID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -98,8 +181,10 @@
           <EntitySet Name="A_DeviceType" EntityType="Self.A_DeviceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="A_Employee" EntityType="Self.A_Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="A_Store" EntityType="Self.A_Store" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_A_Device_DeviceType" Association="Self.FK_A_Device_DeviceType">
-            <End Role="A_DeviceType" EntitySet="A_DeviceType" />
+          <EntitySet Name="A_Users" EntityType="Self.A_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Centers" EntityType="Self.Centers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_A_Device_A_Store" Association="Self.FK_A_Device_A_Store">
+            <End Role="A_Store" EntitySet="A_Store" />
             <End Role="A_Device" EntitySet="A_Device" />
           </AssociationSet>
           <AssociationSet Name="FK_A_Employee_A_Store" Association="Self.FK_A_Employee_A_Store">
@@ -126,6 +211,12 @@
             <End Role="A_Store" EntitySet="A_Store" />
             <End Role="A_Employee" EntitySet="A_Employee" />
           </AssociationSet>
+          <EntitySet Name="A_Users" EntityType="MagicModel.A_Users" />
+          <EntitySet Name="Centers" EntityType="MagicModel.Center" />
+          <AssociationSet Name="FK_A_Device_A_Store" Association="MagicModel.FK_A_Device_A_Store">
+            <End Role="A_Store" EntitySet="A_Store" />
+            <End Role="A_Device" EntitySet="A_Device" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="A_Device">
           <Key>
@@ -137,6 +228,8 @@
           <Property Name="ReceivedDateProvider" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="A_DeviceType" Relationship="MagicModel.FK_A_Device_DeviceType" FromRole="A_Device" ToRole="A_DeviceType" />
+          <Property Name="StoreID" Type="Int32" />
+          <NavigationProperty Name="A_Store" Relationship="MagicModel.FK_A_Device_A_Store" FromRole="A_Device" ToRole="A_Store" />
         </EntityType>
         <EntityType Name="A_DeviceDocument">
           <Key>
@@ -192,6 +285,7 @@
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="A_Employee" Relationship="MagicModel.FK_A_Employee_A_Store" FromRole="A_Store" ToRole="A_Employee" />
+          <NavigationProperty Name="A_Device" Relationship="MagicModel.FK_A_Device_A_Store" FromRole="A_Store" ToRole="A_Device" />
         </EntityType>
         <Association Name="FK_A_Device_DeviceType">
           <End Type="MagicModel.A_DeviceType" Role="A_DeviceType" Multiplicity="1" />
@@ -217,6 +311,100 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="A_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Center">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Level" Type="Int32" />
+          <Property Name="CentralName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CenterName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CommNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TaxNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="Cat" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Last_Cat" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ChgTime" Type="DateTime" Precision="3" />
+          <Property Name="AllowTransfeer" Type="Boolean" />
+          <Property Name="user_created" Type="Int32" />
+          <Property Name="added_date" Type="DateTime" Precision="3" />
+          <Property Name="region" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="sales_person" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="national_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="activity" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="sim_no" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Deal_way" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="is_agent" Type="Boolean" />
+          <Property Name="govern" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="inserted" Type="Int32" />
+          <Property Name="Sales_id" Type="Int32" />
+          <Property Name="Machine_Type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Paid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Remain" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Date_To" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UserUpdate" Type="Int32" />
+          <Property Name="MachineCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="edDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Logged_In" Type="Boolean" />
+          <Property Name="Last_login" Type="DateTime" Precision="3" />
+          <Property Name="last_logout" Type="DateTime" Precision="3" />
+          <Property Name="last_channel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Web" Type="Boolean" />
+          <Property Name="Api" Type="Boolean" />
+          <Property Name="Total_Amount" Type="Single" />
+          <Property Name="Total_Points" Type="Double" />
+          <Property Name="Serial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Simno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="region_mina" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Place_Id" Type="Int32" />
+          <Property Name="sales_center_id" Type="Int32" />
+          <Property Name="Balance_cash" Type="Single" />
+          <Property Name="last1month" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="last2month" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="last3month" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="last0month" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Centers_company_Id" Type="Int32" />
+          <Property Name="Parent_CenterID" Type="Int32" />
+          <Property Name="Total_Parent_Amount" Type="Single" />
+          <Property Name="ProfitDailyControl" Type="Boolean" />
+          <Property Name="AccountTypeID" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="AccountProfileID" Type="Int32" />
+          <Property Name="EntityID" Type="Int32" />
+          <Property Name="TransferTree" Type="Boolean" />
+          <Property Name="CountResetPassword" Type="Int32" />
+          <Property Name="Batch" Type="Int32" />
+          <Property Name="ActivityId" Type="Int32" />
+          <Property Name="GovernID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_A_Device_A_Store">
+          <End Type="MagicModel.A_Store" Role="A_Store" Multiplicity="0..1" />
+          <End Type="MagicModel.A_Device" Role="A_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="A_Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="A_Device">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -226,6 +414,7 @@
           <EntitySetMapping Name="A_Device">
             <EntityTypeMapping TypeName="MagicModel.A_Device">
               <MappingFragment StoreEntitySet="A_Device">
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ReceivedDateProvider" ColumnName="ReceivedDateProvider" />
                 <ScalarProperty Name="DeviceTypeID" ColumnName="DeviceTypeID" />
@@ -288,6 +477,90 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="A_Users">
+            <EntityTypeMapping TypeName="MagicModel.A_Users">
+              <MappingFragment StoreEntitySet="A_Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Centers">
+            <EntityTypeMapping TypeName="MagicModel.Center">
+              <MappingFragment StoreEntitySet="Centers">
+                <ScalarProperty Name="GovernID" ColumnName="GovernID" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="CountResetPassword" ColumnName="CountResetPassword" />
+                <ScalarProperty Name="TransferTree" ColumnName="TransferTree" />
+                <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+                <ScalarProperty Name="AccountProfileID" ColumnName="AccountProfileID" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+                <ScalarProperty Name="ProfitDailyControl" ColumnName="ProfitDailyControl" />
+                <ScalarProperty Name="Total_Parent_Amount" ColumnName="Total_Parent_Amount" />
+                <ScalarProperty Name="Parent_CenterID" ColumnName="Parent_CenterID" />
+                <ScalarProperty Name="Centers_company_Id" ColumnName="Centers_company_Id" />
+                <ScalarProperty Name="last0month" ColumnName="last0month" />
+                <ScalarProperty Name="last3month" ColumnName="last3month" />
+                <ScalarProperty Name="last2month" ColumnName="last2month" />
+                <ScalarProperty Name="last1month" ColumnName="last1month" />
+                <ScalarProperty Name="Balance_cash" ColumnName="Balance_cash" />
+                <ScalarProperty Name="sales_center_id" ColumnName="sales_center_id" />
+                <ScalarProperty Name="Place_Id" ColumnName="Place_Id" />
+                <ScalarProperty Name="region_mina" ColumnName="region_mina" />
+                <ScalarProperty Name="Simno" ColumnName="Simno" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Total_Points" ColumnName="Total_Points" />
+                <ScalarProperty Name="Total_Amount" ColumnName="Total_Amount" />
+                <ScalarProperty Name="Api" ColumnName="Api" />
+                <ScalarProperty Name="Web" ColumnName="Web" />
+                <ScalarProperty Name="last_channel" ColumnName="last_channel" />
+                <ScalarProperty Name="last_logout" ColumnName="last_logout" />
+                <ScalarProperty Name="Last_login" ColumnName="Last_login" />
+                <ScalarProperty Name="Logged_In" ColumnName="Logged_In" />
+                <ScalarProperty Name="edDesc" ColumnName="edDesc" />
+                <ScalarProperty Name="MachineCode" ColumnName="MachineCode" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="Date_To" ColumnName="Date_To" />
+                <ScalarProperty Name="Remain" ColumnName="Remain" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Machine_Type" ColumnName="Machine_Type" />
+                <ScalarProperty Name="Sales_id" ColumnName="Sales_id" />
+                <ScalarProperty Name="inserted" ColumnName="inserted" />
+                <ScalarProperty Name="Mobile2" ColumnName="Mobile2" />
+                <ScalarProperty Name="govern" ColumnName="govern" />
+                <ScalarProperty Name="is_agent" ColumnName="is_agent" />
+                <ScalarProperty Name="Deal_way" ColumnName="Deal_way" />
+                <ScalarProperty Name="sim_no" ColumnName="sim_no" />
+                <ScalarProperty Name="activity" ColumnName="activity" />
+                <ScalarProperty Name="national_id" ColumnName="national_id" />
+                <ScalarProperty Name="sales_person" ColumnName="sales_person" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="added_date" ColumnName="added_date" />
+                <ScalarProperty Name="user_created" ColumnName="user_created" />
+                <ScalarProperty Name="AllowTransfeer" ColumnName="AllowTransfeer" />
+                <ScalarProperty Name="ChgTime" ColumnName="ChgTime" />
+                <ScalarProperty Name="Last_Cat" ColumnName="Last_Cat" />
+                <ScalarProperty Name="Cat" ColumnName="Cat" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="TaxNo" ColumnName="TaxNo" />
+                <ScalarProperty Name="CommNo" ColumnName="CommNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="CenterName" ColumnName="CenterName" />
+                <ScalarProperty Name="CentralName" ColumnName="CentralName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

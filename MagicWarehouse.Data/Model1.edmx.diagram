@@ -13,6 +13,9 @@
         <EntityTypeShape EntityType="MagicModel.A_Store" Width="1.5" PointX="0.75" PointY="1.125" />
         <AssociationConnector Association="MagicModel.FK_A_Device_DeviceType" />
         <AssociationConnector Association="MagicModel.FK_A_Employee_A_Store" />
+        <EntityTypeShape EntityType="MagicModel.A_Users" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MagicModel.Center" Width="1.5" PointX="8.375" PointY="0.5" />
+        <AssociationConnector Association="MagicModel.FK_A_Device_A_Store" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

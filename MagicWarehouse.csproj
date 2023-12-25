@@ -153,6 +153,7 @@
     <Compile Include="Controllers\DeviceTypeController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -189,12 +190,6 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="a7oo\.vs\.vs\.vs\v17\.wsuo" />
-    <Content Include="a7oo\.vs\.vs\slnx.sqlite" />
-    <Content Include="a7oo\.vs\.vs\VSWorkspaceState.json" />
-    <Content Include="a7oo\.vs\a7oo\v17\.wsuo" />
-    <Content Include="a7oo\.vs\slnx.sqlite" />
-    <Content Include="a7oo\.vs\VSWorkspaceState.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -246,6 +241,8 @@
     <Content Include="Views\DeviceDocument\Details.cshtml" />
     <Content Include="Views\DeviceDocument\Edit.cshtml" />
     <Content Include="Views\DeviceDocument\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Store\Transfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

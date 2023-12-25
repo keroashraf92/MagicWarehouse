@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using MagicWarehouse.Data;
+using OfficeOpenXml;
 
 namespace MagicWarehouse.Controllers
 {
@@ -57,6 +60,109 @@ namespace MagicWarehouse.Controllers
 
             return View(a_Store);
         }
+
+        // GET: Store/Transfer/5
+        public ActionResult Transfer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            A_Store a_Store = db.A_Store.Find(id);
+            if (a_Store == null)
+            {
+                return HttpNotFound();
+            }
+            //entity framework command
+            //equal to "select * from Store where id <> id"
+            List<A_Store> storeList = new List<A_Store>();
+            if (a_Store.StoreType == "1")
+                storeList = db.A_Store.Where(x => x.ID != id).ToList();
+            else
+                storeList = db.A_Store.Where(x => x.ID != id && x.StoreType != "2").ToList();
+
+            ViewBag.StoreList = storeList;
+            return View(a_Store);
+        }
+
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase fileUpload, int StoreID)
+        {
+            if (fileUpload != null && fileUpload.ContentLength > 0)
+            {
+                try
+                {
+                    string fileName = Path.GetFileName(fileUpload.FileName);
+                    string uploadDirectory = Server.MapPath("~/UploadedFiles");
+
+                    if (!Directory.Exists(uploadDirectory))
+                    {
+                        Directory.CreateDirectory(uploadDirectory);
+                    }
+
+                    string filePath = Path.Combine(uploadDirectory, fileName);
+                    fileUpload.SaveAs(filePath);
+
+                    //------------------------------------------------------//
+
+                    // Replace "yourFilePath" with the actual path to your Excel file
+                    FileInfo fileInfo = new FileInfo(filePath);
+
+                    using (var package = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets["Sheet1"];
+
+                        int totalRows = worksheet.Dimension.Rows;
+                        int totalColumns = worksheet.Dimension.Columns;
+
+                        List<string> columnHeaders = new List<string>();
+                        for (int col = 1; col <= totalColumns; col++)
+                        {
+                            string columnHeader = worksheet.Cells[1, col].Value?.ToString();
+                            columnHeaders.Add(columnHeader);
+                        }
+
+                        List<Dictionary<string, string>> rowDataList = new List<Dictionary<string, string>>();
+                        for (int row = 2; row <= totalRows; row++)
+                        {
+                            Dictionary<string, string> rowData = new Dictionary<string, string>();
+                            for (int col = 1; col <= totalColumns; col++)
+                            {
+                                string columnHeader = columnHeaders[col - 1];
+                                string cellValue = worksheet.Cells[row, col].Value?.ToString();
+                                rowData.Add(columnHeader, cellValue);
+                            }
+                            rowDataList.Add(rowData);
+                        }
+                        foreach (var device in rowDataList)
+                        {
+                            A_Device a_device = new A_Device();
+                            a_device.IMEI = device["IMEI"];
+                            db.A_Device.Add(a_device);
+                            db.SaveChanges();
+                        }
+                        TempData["Message"] = "File Upload Success";
+                    }
+                    //-----------------------------------------------------//
+                    TempData["Message"] = "File uploaded successfully!";
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that may occur during file upload
+                    TempData["Message"] = "Error uploading file: " + ex.Message;
+                }
+            }
+            else
+            {
+                // Handle the case where no file was selected
+                TempData["Message"] = "Please select a file to upload.";
+            }
+
+            return RedirectToAction("Create");
+
+            //return View();
+        }
+
 
         // GET: Store/Edit/5
         public ActionResult Edit(int? id)

@@ -12,16 +12,10 @@ namespace MagicWarehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class A_Device
+    public partial class A_Users
     {
         public int ID { get; set; }
-        public string IMEI { get; set; }
-        public int DeviceTypeID { get; set; }
-        public System.DateTime ReceivedDateProvider { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> StoreID { get; set; }
-    
-        public virtual A_DeviceType A_DeviceType { get; set; }
-        public virtual A_Store A_Store { get; set; }
+        public string username { get; set; }
+        public string Password { get; set; }
     }
 }

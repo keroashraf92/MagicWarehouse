@@ -27,6 +27,7 @@ using System.Drawing;
 
 namespace MagicWarehouse.Controllers
 {
+    
     public class DeviceController : Controller
     {
         private MagicEntities db = new MagicEntities();
@@ -222,6 +223,14 @@ namespace MagicWarehouse.Controllers
 
             //return View();
         }
+
+        public ActionResult Transfer()
+        {
+            ViewBag.ID = new SelectList(db.A_Device, "IMEI", "DeviceName");
+            return View();
+        }
+
+
 
         // GET: Device/Delete/5
         public ActionResult Delete(int? id)

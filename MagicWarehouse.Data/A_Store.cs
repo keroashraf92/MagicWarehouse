@@ -18,6 +18,7 @@ namespace MagicWarehouse.Data
         public A_Store()
         {
             this.A_Employee = new HashSet<A_Employee>();
+            this.A_Device = new HashSet<A_Device>();
         }
     
         public int ID { get; set; }
@@ -30,5 +31,7 @@ namespace MagicWarehouse.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<A_Employee> A_Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<A_Device> A_Device { get; set; }
     }
 }

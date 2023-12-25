@@ -31,5 +31,7 @@ namespace MagicWarehouse.Data
         public virtual DbSet<A_DeviceType> A_DeviceType { get; set; }
         public virtual DbSet<A_Employee> A_Employee { get; set; }
         public virtual DbSet<A_Store> A_Store { get; set; }
+        public virtual DbSet<A_Users> A_Users { get; set; }
+        public virtual DbSet<Center> Centers { get; set; }
     }
 }

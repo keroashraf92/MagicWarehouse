@@ -12,6 +12,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 namespace MagicWarehouse.Controllers
 {
+    
     public class DeviceDocumentController : Controller
     {
         private MagicEntities db = new MagicEntities();
