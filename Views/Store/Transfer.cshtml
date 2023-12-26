@@ -17,20 +17,18 @@
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
 
-                @Html.DropDownListFor(model => model.Name, new SelectList(storeList, "Name", "Name"), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("StoreId", new SelectList(storeList, "ID", "Name"), htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
         <br />
         <br />
 
-        <form id="form1" runat="server">
-            <input type="file" id="fileUpload" name="fileUpload" />
-            <br />
-            <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
-            <br />
-            <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
-        </form>
+        <input type="file" id="fileUpload" name="fileUpload" />
+        <br />
+        <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
+        <br />
+        <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

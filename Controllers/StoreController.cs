@@ -86,8 +86,13 @@ namespace MagicWarehouse.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFile(HttpPostedFileBase fileUpload, int StoreID)
+        public ActionResult UploadFile(HttpPostedFileBase fileUpload)
         {
+            if (fileUpload is null)
+            {
+                throw new ArgumentNullException(nameof(fileUpload));
+            }
+
             if (fileUpload != null && fileUpload.ContentLength > 0)
             {
                 try
