@@ -86,7 +86,7 @@ namespace MagicWarehouse.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFile(HttpPostedFileBase fileUpload)
+        public ActionResult UploadFile(HttpPostedFileBase fileUpload,int StoreId)
         {
             if (fileUpload is null)
             {
@@ -142,6 +142,10 @@ namespace MagicWarehouse.Controllers
                         foreach (var device in rowDataList)
                         {
                             A_Device a_device = new A_Device();
+                            a_device.Status = device["Status"];
+                            a_device.ReceivedDateProvider=DateTime.Now;
+                            a_device.DeviceTypeID = Convert.ToInt32(device["DeviceType"]);
+                            a_device.StoreID = StoreId;
                             a_device.IMEI = device["IMEI"];
                             db.A_Device.Add(a_device);
                             db.SaveChanges();
@@ -163,7 +167,7 @@ namespace MagicWarehouse.Controllers
                 TempData["Message"] = "Please select a file to upload.";
             }
 
-            return RedirectToAction("Create");
+            return RedirectToAction("Index","Home");
 
             //return View();
         }
