@@ -142,11 +142,12 @@ namespace MagicWarehouse.Controllers
                         foreach (var device in rowDataList)
                         {
                             A_Device a_device = new A_Device();
-                            a_device.Status = device["Status"];
+                            a_device.IMEI = device["IMEI"];
+                            a_device.StoreID = StoreId;
                             a_device.ReceivedDateProvider=DateTime.Now;
                             a_device.DeviceTypeID = Convert.ToInt32(device["DeviceType"]);
-                            a_device.StoreID = StoreId;
-                            a_device.IMEI = device["IMEI"];
+                            a_device.Status = device["Status"];
+                                                        
                             db.A_Device.Add(a_device);
                             db.SaveChanges();
                         }

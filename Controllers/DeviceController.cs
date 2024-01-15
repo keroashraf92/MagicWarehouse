@@ -36,14 +36,14 @@ namespace MagicWarehouse.Controllers
 
         public ActionResult Index(int? i, string searchString)
         {
-            // Your existing code for displaying the list of devices
-            int pageSize = 15;
-            int pageIndex = !i.HasValue ? 1 : i.Value;
-            var a_Device = db.A_Device.Where(X => string.IsNullOrEmpty(searchString)
-                || (!string.IsNullOrEmpty(searchString) && X.IMEI.Contains(searchString))).Include(a => a.A_DeviceType);
-
+            
+            int pageSize = 100;
+            int pageIndex = i ?? 1; 
+            var devices = db.A_Device.Where(X => string.IsNullOrEmpty(searchString) || X.IMEI.Contains(searchString))
+                .Include(a => a.A_DeviceType);
             ViewBag.CurrentFilter = searchString;
-            return View(a_Device.ToList().ToPagedList(pageIndex, pageSize));
+            var pagedDevices = devices.OrderBy(x => x.ReceivedDateProvider).ToPagedList(pageIndex, pageSize);
+            return View(pagedDevices);
         }
 
         // GET: Device/Details/5
