@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>A_Employee</h4>
+    <h4>Employee Data</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -26,7 +26,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @type="textbox" } })
             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -47,29 +47,15 @@
         </div>
     </div>
 
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.JoinningDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.JoinningDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.JoinningDate, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
     <div class="form-group">
         @Html.LabelFor(model => model.JoinningDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @* <input type="datetime-local" id="birthdaytime" name="birthdaytime">*@
-            @Html.EditorFor(model => model.JoinningDate, new { @type = "date" })
-
-            @*@Html.TextBoxFor(model => model.ReceivedDateProvider, "{0:yyyy-MM-dd HH:mm}", new { @class = "form-control datetimepicker" })*@
+            @Html.EditorFor(model => model.JoinningDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
             @Html.ValidationMessageFor(model => model.JoinningDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
-
-
-
-    <div class="form-group">
+       <div class="form-group">
         @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
@@ -80,7 +66,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -88,7 +74,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CreatedOn, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CreatedOn, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.CreatedOn, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
             @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
         </div>
     </div>
