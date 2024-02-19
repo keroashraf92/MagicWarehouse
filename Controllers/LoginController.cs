@@ -1,4 +1,5 @@
 ﻿using MagicWarehouse.Data;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -38,6 +39,7 @@ namespace MagicWarehouse.Controllers
                 return View();
             }
         }
+        
 
         public ActionResult Dashboard()
         {

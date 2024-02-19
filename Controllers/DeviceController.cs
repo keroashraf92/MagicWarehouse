@@ -19,8 +19,6 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PagedList;
 using PagedList.Mvc;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
 using System.Drawing;
 
 
@@ -109,6 +107,7 @@ namespace MagicWarehouse.Controllers
             }
             ViewBag.ID = new SelectList(db.A_DeviceType, "ID", "DeviceName", a_Device.ID);
             return View(a_Device);
+
             if (ModelState.IsValid)
             {
                 // Validate the IMEI format using a regular expression
